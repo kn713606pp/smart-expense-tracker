@@ -1,0 +1,130 @@
+name: 測試
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - name: 檢出程式碼
+      uses: actions/checkout@v4
+
+    - name: 設定 Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: 安裝依賴
+      run: npm ci
+
+    - name: 執行 Lint 檢查
+      run: npm run lint
+
+    - name: 執行單元測試
+      run: npm run test:run
+
+    - name: 生成測試覆蓋率報告
+      run: npm run test:coverage
+
+    - name: 上傳覆蓋率報告
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: 檢出程式碼
+      uses: actions/checkout@v4
+
+    - name: 設定 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: 安裝依賴
+      run: npm ci
+
+    - name: 建置應用程式
+      run: npm run build
+
+    - name: 啟動應用程式
+      run: npm run preview &
+      env:
+        PORT: 3000
+
+    - name: 等待應用程式啟動
+      run: npx wait-on http://localhost:3000
+
+    - name: 執行 Cypress 測試
+      run: npm run test:e2e:run
+      env:
+        CYPRESS_baseUrl: http://localhost:3000
+
+    - name: 執行 Playwright 測試
+      run: npm run test:playwright
+
+    - name: 上傳測試結果
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: test-results
+        path: |
+          cypress/screenshots
+          cypress/videos
+          playwright/test-results
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: 檢出程式碼
+      uses: actions/checkout@v4
+
+    - name: 設定 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: 安裝依賴
+      run: npm ci
+
+    - name: 建置應用程式
+      run: npm run build
+
+    - name: 啟動應用程式
+      run: npm run preview &
+      env:
+        PORT: 3000
+
+    - name: 等待應用程式啟動
+      run: npx wait-on http://localhost:3000
+
+    - name: 執行 Lighthouse 效能測試
+      run: |
+        npm install -g lighthouse
+        lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html --chrome-flags="--headless"
+
+    - name: 上傳 Lighthouse 報告
+      uses: actions/upload-artifact@v3
+      with:
+        name: lighthouse-report
+        path: lighthouse-report.html
+
