@@ -3,6 +3,9 @@ import { Toaster } from 'react-hot-toast'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import AddExpense from './pages/AddExpense'
+import Calendar from './pages/Calendar'
+import Accounts from './pages/Accounts'
+import Settings from './pages/Settings'
 import { ExpenseProvider } from './context/ExpenseContext'
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/add" element={<AddExpense />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/accounts" element={<Accounts />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </Layout>
           <Toaster 
