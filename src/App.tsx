@@ -2,10 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
-import Calendar from './pages/Calendar'
 import AddExpense from './pages/AddExpense'
-import Accounts from './pages/Accounts'
-import Settings from './pages/Settings'
 import { ExpenseProvider } from './context/ExpenseContext'
 
 function App() {
@@ -16,10 +13,7 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/calendar" element={<Calendar />} />
               <Route path="/add" element={<AddExpense />} />
-              <Route path="/accounts" element={<Accounts />} />
-              <Route path="/settings" element={<Settings />} />
             </Routes>
           </Layout>
           <Toaster 
@@ -40,4 +34,3 @@ function App() {
 }
 
 export default App
-

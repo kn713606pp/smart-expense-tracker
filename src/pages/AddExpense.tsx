@@ -1,9 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Mic, 
-  MicOff, 
-  Camera, 
   Send, 
   DollarSign,
   Calendar,
@@ -12,90 +9,31 @@ import {
   Sparkles
 } from 'lucide-react'
 import { useExpense } from '../context/ExpenseContext'
-import { useSpeechRecognition } from '../hooks/useSpeechRecognition'
 import toast from 'react-hot-toast'
 
 export default function AddExpense() {
   const { state, addExpense } = useExpense()
   const [inputText, setInputText] = useState('')
-  const [isProcessing, setIsProcessing] = useState(false)
   const [selectedAccount, setSelectedAccount] = useState(state.accounts[0]?.id || '')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [amount, setAmount] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const { listen, listening, stop } = useSpeechRecognition({
-    onResult: (result: string) => {
-      setInputText(result)
-      parseNaturalLanguage(result)
-    },
-  })
 
   const parseNaturalLanguage = async (text: string) => {
-    setIsProcessing(true)
+    // 簡單的自然語言解析
+    const amountMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:元|塊|錢|NTD|台幣)?/i)
+    if (amountMatch) {
+      setAmount(amountMatch[1])
+    }
     
-    try {
-      // 模擬 AI 解析自然語言
-      const mockParsedData = {
-        amount: extractAmount(text),
-        description: extractDescription(text),
-        category: extractCategory(text),
-        account: selectedAccount
-      }
-
-      if (mockParsedData.amount) {
-        setAmount(mockParsedData.amount.toString())
-      }
-      if (mockParsedData.description) {
-        setDescription(mockParsedData.description)
-      }
-      if (mockParsedData.category) {
-        setSelectedCategory(mockParsedData.category)
-      }
-
-      toast.success('自然語言解析完成！')
-    } catch (error) {
-      toast.error('解析失敗，請重試')
-    } finally {
-      setIsProcessing(false)
+    // 移除金額，保留描述
+    const description = text.replace(/\d+(?:\.\d+)?\s*(?:元|塊|錢|NTD|台幣|台幣)/gi, '').trim()
+    if (description) {
+      setDescription(description)
     }
-  }
-
-  const extractAmount = (text: string): number | null => {
-    const amountRegex = /(\d+(?:\.\d+)?)\s*(?:元|塊|錢|NTD|台幣)?/g
-    const matches = text.match(amountRegex)
-    if (matches) {
-      return parseFloat(matches[0].replace(/[^\d.]/g, ''))
-    }
-    return null
-  }
-
-  const extractDescription = (text: string): string => {
-    // 移除金額和常見詞彙，保留描述
-    return text
-      .replace(/\d+(?:\.\d+)?\s*(?:元|塊|錢|NTD|台幣)/g, '')
-      .replace(/(花了|買了|付了|用了)/g, '')
-      .trim()
-  }
-
-  const extractCategory = (text: string): string => {
-    const categoryKeywords = {
-      '餐飲': ['吃', '餐廳', '食物', '午餐', '晚餐', '早餐', '咖啡', '飲料'],
-      '交通': ['車', '油', '停車', '捷運', '公車', '計程車', 'uber'],
-      '購物': ['買', '購物', '衣服', '鞋子', '包包'],
-      '娛樂': ['電影', '遊戲', '娛樂', '唱歌', 'KTV'],
-      '醫療': ['醫院', '藥', '看醫生', '健保'],
-      '教育': ['書', '課程', '學費', '補習']
-    }
-
-    for (const [category, keywords] of Object.entries(categoryKeywords)) {
-      if (keywords.some(keyword => text.includes(keyword))) {
-        return category
-      }
-    }
-    return '其他'
+    
+    toast.success('自然語言解析完成！')
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -127,25 +65,6 @@ export default function AddExpense() {
     setSelectedCategory('')
   }
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    setIsProcessing(true)
-    toast.loading('正在處理圖片...')
-
-    try {
-      // 這裡會整合 OCR 功能
-      // const ocrResult = await processImageWithOCR(file)
-      // setDescription(ocrResult.text)
-      toast.success('圖片處理完成！')
-    } catch (error) {
-      toast.error('圖片處理失敗')
-    } finally {
-      setIsProcessing(false)
-    }
-  }
-
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <motion.div
@@ -156,7 +75,7 @@ export default function AddExpense() {
         {/* 頁面標題 */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">新增支出記錄</h1>
-          <p className="text-gray-600">支援自然語言輸入、語音辨識和圖片掃描</p>
+          <p className="text-gray-600">支援自然語言輸入</p>
         </div>
 
         {/* 自然語言輸入區域 */}
@@ -177,41 +96,11 @@ export default function AddExpense() {
               />
               <button
                 onClick={() => parseNaturalLanguage(inputText)}
-                disabled={!inputText || isProcessing}
+                disabled={!inputText}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </button>
-            </div>
-
-            <div className="flex space-x-2">
-              <button
-                onClick={listening ? stop : listen}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-colors ${
-                  listening 
-                    ? 'bg-red-100 border-red-300 text-red-700' 
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                <span>{listening ? '停止錄音' : '語音輸入'}</span>
-              </button>
-
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                <Camera className="w-4 h-4" />
-                <span>掃描收據</span>
-              </button>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
             </div>
           </div>
         </div>
@@ -315,10 +204,9 @@ export default function AddExpense() {
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              disabled={isProcessing}
-              className="btn-primary px-8 py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary px-8 py-3 text-lg"
             >
-              {isProcessing ? '處理中...' : '新增記錄'}
+              新增記錄
             </motion.button>
           </div>
         </form>
@@ -326,4 +214,3 @@ export default function AddExpense() {
     </div>
   )
 }
-
