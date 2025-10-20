@@ -15,7 +15,7 @@ export function useSpeechRecognition(options: SpeechRecognitionOptions = {}) {
       return
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     const recognition = new SpeechRecognition()
 
     recognition.continuous = false
@@ -27,12 +27,12 @@ export function useSpeechRecognition(options: SpeechRecognitionOptions = {}) {
       setError(null)
     }
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript
       options.onResult?.(transcript)
     }
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: any) => {
       setError(`語音辨識錯誤: ${event.error}`)
       setListening(false)
       options.onError?.(event.error)
