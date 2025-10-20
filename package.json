@@ -15,7 +15,8 @@
     "test:e2e": "cypress open",
     "test:e2e:run": "cypress run",
     "test:playwright": "playwright test",
-    "test:all": "npm run test:run && npm run test:e2e:run && npm run test:playwright"
+    "test:all": "npm run test:run && npm run test:e2e:run && npm run test:playwright",
+    "postinstall": "npm install --legacy-peer-deps"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -24,7 +25,6 @@
     "lucide-react": "^0.294.0",
     "date-fns": "^2.30.0",
     "react-calendar": "^4.6.0",
-    "react-speech-kit": "^3.0.1",
     "tesseract.js": "^4.1.1",
     "axios": "^1.6.2",
     "zustand": "^4.4.7",

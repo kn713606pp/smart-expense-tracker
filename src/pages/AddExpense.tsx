@@ -12,7 +12,7 @@ import {
   Sparkles
 } from 'lucide-react'
 import { useExpense } from '../context/ExpenseContext'
-import { useSpeechRecognition } from 'react-speech-kit'
+import { useSpeechRecognition } from '../hooks/useSpeechRecognition'
 import toast from 'react-hot-toast'
 
 export default function AddExpense() {
