@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歐萊德未來五年發展願景與策略計畫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .slide {
+            display: none;
+        }
+        .slide.active {
+            display: block;
+        }
+        .speaker-notes {
+            background-color: #f8f9fa;
+            border-left: 4px solid #10B981; /* O'right Green */
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        .speaker-notes details summary {
+            font-weight: 700;
+            cursor: pointer;
+            color: #10B981;
+        }
+         /* Custom scrollbar for speaker notes */
+        .notes-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .notes-content::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .notes-content::-webkit-scrollbar-thumb {
+            background-color: #94a3b8;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+        }
+        .notes-content {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 8px;
+        }
+        .progress-bar {
+            background-color: #10B981;
+            height: 8px;
+            border-radius: 9999px;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">歐萊德未來五年發展願景</h1>
+            <p class="text-gray-500 mt-2">AI x 永續的策略藍圖</p>
+        </header>
+
+        <main id="presentation-container" class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- Slide content will be injected here -->
+        </main>
+
+        <footer class="mt-8">
+             <div class="flex justify-between items-center mb-4">
+                <span id="slide-counter" class="text-sm font-medium text-gray-500"></span>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="flex justify-center items-center gap-4 mt-6">
+                <button id="prevBtn" class="bg-white hover:bg-gray-100 text-gray-800 font-bold py-2 px-6 rounded-full shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    上一頁
+                </button>
+                <button id="nextBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    下一頁
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const slides = [
+            // Slide 1: Title
+            {
+                title: "歐萊德未來五年發展願景與策略計畫",
+                content: `
+                    <div class="h-full flex flex-col justify-center items-center text-center p-8 bg-gradient-to-br from-emerald-50 to-teal-100">
+                         <img src="https://placehold.co/150x150/10B981/FFFFFF?text=O'right" alt="歐萊德 Logo" class="rounded-full mb-6 shadow-lg">
+                        <h2 class="text-4xl font-bold text-emerald-800">未來五年發展願景與策略計畫</h2>
+                        <p class="mt-4 text-xl text-gray-600">擁抱 AI · 踐行 ESG · 善用全球智慧</p>
+                        <p class="mt-2 text-gray-500">2025 - 2030</p>
+                    </div>
+                `,
+                notes: `
+                    <p><strong>開場：</strong></p>
+                    <p>歡迎各位，今天我們將一同擘劃歐萊德從現在到2030年的宏偉藍圖。這不僅是一份策略計畫，更是我們對未來的承諾——一個擁抱AI創新、深化ESG實踐、並善用全球智慧的人文科技公司的願景。讓我們開始吧。</p>
+                `
+            },
+            // Slide 2: External Trends
+            {
+                title: "外部趨勢洞察：我們身處的時代",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-8">六大趨勢，重塑產業版圖</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">1. AI 革命</h4>
+                                <p class="text-sm mt-2">技術加速滲透，帶來效率與創新紅利，同時也對人才與流程提出新要求。</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">2. ESG 永續浪潮</h4>
+                                <p class="text-sm mt-2">從企業形象轉為核心戰略，永續成為價值創造與長期競爭力的關鍵。</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">3. 國際市場變化</h4>
+                                <p class="text-sm mt-2">後疫情時代充滿變數，法規趨嚴，新興市場崛起，需靈活應對在地化需求。</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">4. 產業永續性</h4>
+                                <p class="text-sm mt-2">綠色消費意識高漲，永續材料、淨零排放與綠色創新將決定企業競爭力。</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">5. 人才斷層挑戰</h4>
+                                <p class="text-sm mt-2">數位轉型下專業人才短缺，經驗傳承面臨斷層，需加速培育新世代人才。</p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg text-emerald-700">6. 跨領域整合需求</h4>
+                                <p class="text-sm mt-2">單一職能優化已不足以驅動成長，必須打破部門藩籬，實現數據與價值鏈整合。</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>當前，我們正處於一個瞬息萬變的時代，六大趨勢深刻影響著企業經營版圖。</p>
+                    <p><strong>首先是AI革命：</strong>人工智慧從研發、生產到行銷各環節迅速普及。這意味著我們若不抓緊導入AI，將可能在效率與創新上落後於人。然而，AI應用同時凸顯人才與流程轉型的重要性。</p>
+                    <p><strong>其次，ESG永續浪潮</strong>正從風潮變為主流價值。永續發展不再只是企業的形象工程，而是長期競爭力所在。未來五年，ESG理念仍將是公司戰略的核心，我們要持續扮演綠色領航者的角色。</p>
+                    <p><strong>國際市場方面</strong>，全球經濟充滿不確定性，各國法規日益嚴格。我們需要靈活的國際佈局策略，以在不同文化與趨勢中保持競爭優勢。</p>
+                    <p>在<strong>產業永續領域</strong>，綠色消費已成勢不可擋的趨勢。我們要繼續研發天然有機的產品、採用可生物分解包裝，以滿足並引領這股永續風潮。</p>
+                    <p><strong>人才斷層</strong>則是內部不可忽視的挑戰。我們將強化人力資源策略，確保在組織轉型路上“有人可用”。</p>
+                    <p><strong>最後，跨領域整合</strong>是我們突破現狀、實現飛躍的關鍵。只有打破組織壁壘，促進跨部門的知識分享和協同創新，我們才能打造真正敏捷且具韌性的企業。</p>
+                `
+            },
+            // Slide 3: 5-Year Vision
+            {
+                title: "未來五年發展願景",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-8">我們的宏偉藍圖：2030年的歐萊德</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">數位轉型與敏捷組織</h4>
+                                    <p class="text-sm mt-1">打造數據驅動、AI賦能的敏捷組織，實現從被動反應到主動預測的飛躍。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">全球永續領航品牌</h4>
+                                    <p class="text-sm mt-1">鞏固永續美容先鋒地位，全面達成RE100目標，讓永續成為市場競爭優勢。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">創新產品與市場版圖</h4>
+                                    <p class="text-sm mt-1">跨足生技美容，開拓醫美商機。深耕亞洲，進軍歐美，成為真正的國際品牌。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">4</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">人才與文化</h4>
+                                    <p class="text-sm mt-1">培育跨領域領袖，塑造高使命感的共好文化，成為業界最具吸引力的雇主。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xl">5</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">永續價值生態系</h4>
+                                    <p class="text-sm mt-1">超越企業本身，與供應商、通路協作共生，帶動整個美容產業朝向良善循環發展。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>站在2025年往2030年展望，我們為歐萊德描繪了一幅宏大的藍圖。</p>
+                    <p><strong>第一，在數位轉型方面</strong>，我們的願景是建立一個由數據驅動、AI賦能的敏捷組織。未來五年內，公司將徹底擺脫資訊孤島，讓決策從經驗導向轉為預測導向。</p>
+                    <p><strong>第二，我們矢志成為全球永續領航品牌</strong>。目標在五年內，公司運營和產品製造全面使用100%再生能源（RE100），確保歐萊德在綠色科技與永續經營上引領潮流。</p>
+                    <p><strong>第三，創新與市場拓展</strong>是未來五年的成長引擎。我們計畫大膽跨足生技醫藥領域，實現從“綠色保養”到“綠色醫療”的飛躍，並將國際版圖更形擴大。</p>
+                    <p><strong>第四，在組織內部，我們強調“人才與文化”的雙輪驅動</strong>。我們將投入前所未有的資源在人才培育與文化塑造上，營造一種每位員工都有高度使命感、又能自主創新的“共好”環境。</p>
+                    <p><strong>最後，永續價值生態系的構想</strong>更體現了我們的格局。歐萊德不僅要自身做好，還要帶動整個產業鏈一起進步，打造一個涵蓋我們、合作夥伴與社會的大生態圈。</p>
+                `
+            },
+            // Slide 4: 3-Year Plan Year 1
+            {
+                title: "未來三年策略規劃 (第一年)",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-2">第一年：數位基石與效能提升</h3>
+                        <p class="text-center text-gray-500 mb-8">完成關鍵數位基礎建設與試點專案</p>
+                        <ul class="space-y-4 list-disc list-inside text-gray-700">
+                            <li><strong>關鍵系統導入：</strong>完成製造執行系統（MES）與實驗室資訊管理（LIMS）等平台上線，為數據化打下基礎。</li>
+                            <li><strong>AI 試點推行：</strong>針對現有效率瓶頸（如合約審閱、人資RPA、品管稽核）推行AI試點，快速見效建立信心。</li>
+                            <li><strong>數據治理建立：</strong>成立數據治理委員會，制定全公司統一的資料標準，確保數據品質與整合性。</li>
+                            <li><strong>基礎設施就緒：</strong>啟動IoT感測設備上線，開始累積高品質的即時營運數據資產。</li>
+                        </ul>
+                    </div>
+                `,
+                notes: `
+                    <p>有了明確的五年願景後，我們接下來聚焦未來三年的執行藍圖。這三年是奠定基石、由點到面推進轉型的關鍵期。</p>
+                    <p><strong>第一年，我們要做的像是“打地基”。</strong></p>
+                    <p>首先，關鍵的數位系統必須上線，包括MES和LIMS，這將是我們數據化的命脈。同時，IoT感測設備也會同步部署，開始即時蒐集資料。沒有這些數據基礎，就談不上後續的AI優化。</p>
+                    <p>同時，我們會在幾個痛點領域優先嘗試AI導入的試點專案，例如法務的AI合約審閱、人資的RPA流程自動化等。這些小規模試點預計在第一年內見效，為全公司建立AI信心。</p>
+                    <p>最後，我們也將成立跨部門的數據治理委員會，制定數據標準，確保後續各系統整合時數據口徑一致、質量可靠。總之，第一年我們要看到的是基礎建設就緒，效率初步提升的局面。</p>
+                `
+            },
+            // Slide 5: 3-Year Plan Year 2
+            {
+                title: "未來三年策略規劃 (第二年)",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-2">第二年：跨部門整合與市場拓展</h3>
+                        <p class="text-center text-gray-500 mb-8">打通數據與流程壁壘，實現端到端優化</p>
+                        <ul class="space-y-4 list-disc list-inside text-gray-700">
+                            <li><strong>數據流程打通：</strong>建立“產品數位履歷”，串接研發、品管、供應商和生產資訊，提升品質透明度與追溯力。</li>
+                            <li><strong>營運效率優化：</strong>運籌中心全面應用MES數據進行生產排程優化，目標設備OEE（整體效率）顯著提高。</li>
+                            <li><strong>永續供應鏈：</strong>推行供應商分級管理，確保取得國際永續認證（如EcoVadis），強化供應鏈韌性。</li>
+                            <li><strong>市場滲透加強：</strong>推出區域化產品策略，深化中國、日本市場，並以“淨零系列”產品拓展東南亞市場。</li>
+                        </ul>
+                    </div>
+                `,
+                notes: `
+                    <p><strong>到第二年，我們將從各個業務模組的建設轉向整體流程的串聯優化。</strong></p>
+                    <p>隨著各部門數位系統上線，我們要打通它們之間的資訊流。例如，我們計畫建立“產品數位履歷”，將產品從研發到出貨的所有關鍵數據串聯起來。</p>
+                    <p>運籌中心則在MES數據基礎上，引入AI進行生產排程優化和預測性維護，預期工廠整體設備效率（OEE）會有明顯提升。</p>
+                    <p>同時，我們著重強化供應鏈的韌性與永續性，導入供應商分級管理制度，並力爭取得國際公認的永續供應鏈認證。</p>
+                    <p>市場方面，第二年我們將在鞏固現有市場份額的同時積極拓展新市場。具體策略包括針對不同地區推出本地化的產品與行銷方案，並初步打開東南亞幾個重點國家的局面。</p>
+                `
+            },
+            // Slide 6: 3-Year Plan Year 3
+            {
+                title: "未來三年策略規劃 (第三年)",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-2">第三年：創新成果落地與組織定型</h3>
+                        <p class="text-center text-gray-500 mb-8">迎來重要成果驗收，展現轉型雛形</p>
+                         <ul class="space-y-4 list-disc list-inside text-gray-700">
+                            <li><strong>革命性新品上市：</strong>預計成功上市生髮藥品等劃時代產品，打開全新營收管道，象徵公司跨足醫藥美容領域。</li>
+                            <li><strong>預防性品質管理：</strong>品質管理體系升級為“預防性”模式，全流程數位化並由AI協助進行矯正與預防措施（CAPA）。</li>
+                            <li><strong>敏捷文化成形：</strong>內部組織結構經過兩年磨合逐步定型，形成跨部門協作的敏捷文化，員工數位技能普遍提升。</li>
+                            <li><strong>永續供應鏈達成：</strong>主要供應商均符合環境與社會標準，供應風險大幅下降，產品具備綠色與道德供應鏈標籤。</li>
+                        </ul>
+                    </div>
+                `,
+                notes: `
+                    <p><strong>到了第三年，許多前期投入將結出碩果。</strong></p>
+                    <p>研發線最令人矚目的將是我們計畫中的生髮新藥，預計在第三年實現上市，這將是公司產品組合的重大突破。</p>
+                    <p>在品質與製造方面，品質管理將從過去的事後改善，升級為事前預防的模式。AI品質系統將全面發揮效用，潛在的品質問題能提前預警並處置。</p>
+                    <p>供應鏈端，多數核心供應商將達到我們設定的永續標準，我們的產品能夠誠實地掛上綠色與道德供應鏈的標籤。</p>
+                    <p>組織發展上，經過連續兩年的轉型，公司將逐漸進入新常態。“敏捷”和“跨領域”真正融入了日常工作文化。到第三年年底，我們理想的狀態是：大家已經明顯感受到跟三年前的歐萊德大不相同了。</p>
+                `
+            },
+             // Slide 7: HR Center
+            {
+                title: "人資中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">從行政支援到戰略夥伴 (HRBP)</h3>
+                        <p class="text-center text-gray-500 mb-8">營造高使命感的共好文化</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">核心目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>短期：優化員工體驗，強化人才招募培訓。</li>
+                                    <li>中期：實現核心人才內建，降低外部依賴。</li>
+                                    <li>長期：打造最佳雇主品牌，實現人資零行政負擔。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 技術導入</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>RPA 自動化：</strong>自動處理考勤、薪酬等重複性工作。</li>
+                                    <li><strong>動態技能圖譜：</strong>以AI分析人才技能數據，找出缺口。</li>
+                                    <li><strong>人才預測系統：</strong>AI輔助人才盤點與流動率預測。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>在未來，歐萊德的人資中心將不再只是執行行政工作的單位，而是蛻變為一個真正的<strong>戰略夥伴</strong>。我們的願景是讓人資團隊成為公司決策桌上一股不可或缺的力量。</p>
+                    <p><strong>目標方面</strong>，短期聚焦於解決人力燃眉之急；中期實現“核心人才內建”，大部分關鍵職位由內部培養；長期目標是實現“人資作業零行政負擔”，讓AI充分接管行政瑣事，人資團隊深度參與戰略。</p>
+                    <p>為達成目標，<strong>AI技術的導入</strong>將是強力助手。我們會大量導入RPA來處理繁瑣重複的工作；建立動態技能圖譜系統，用AI分析公司的“能力地圖”；並啟用AI預測模型，分析員工流動率和離職風險。</p>
+                    <p>為應對<strong>人才斷層</strong>，我們將啟動導師制和知識管理專案，並推動員工的終身學習文化。最終，人資中心將成為串聯各部門的潤滑劑和推動者，助力全公司的轉型目標達成。</p>
+                `
+            },
+            // Slide 8: Legal Center
+            {
+                title: "法務中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">從被動諮詢到前瞻風險控管</h3>
+                        <p class="text-center text-gray-500 mb-8">打造內部AI法律代理人</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">核心目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>短期：確保法遵零失誤，優化AI合約審閱流程效率。</li>
+                                    <li>中期：建立自助式法規知識庫，支援國際化。</li>
+                                    <li>長期：研發內部AI法律顧問，實現諮詢自動化。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 導入策略</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>流程再造 + AI工具：</strong>重新設計合約審閱流程，避免效率陷阱。</li>
+                                    <li><strong>法務解題手冊 AI：</strong>訓練模型以供全公司查詢常見法律問題。</li>
+                                    <li><strong>NLP 文件生成：</strong>AI自動抓取數據生成產品法規報告。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>我們期許法務部不再只是“消防隊”，而是轉型成主動提供商業洞見的<strong>風險控管者</strong>。最具野心的目標，是打造內部的<strong>AI法律代理人</strong>，讓員工能即時獲得基本法律問題的初步解答。</p>
+                    <p>目前，法務面臨人力不足及首次導入AI（合約審閱）效率不升反降的挑戰。這給了我們一個教訓：<strong>必須先重塑流程再上工具</strong>。</p>
+                    <p><strong>展望未來</strong>，短期目標是確保法遵零失誤並提升合約審核效率；中期建立自助式法規知識庫；長期則要研發出屬於歐萊德的AI法律顧問。</p>
+                    <p><strong>AI導入策略</strong>方面，首要是對AI合約審閱流程進行再造；其次是建置法務解題手冊AI；並與研發單位協作，引入NLP技術自動生成產品法規文件。最終，法務中心將以更智慧、更前瞻的姿態，為歐萊德的全球擴張和創新保駕護航。</p>
+                `
+            },
+            // Slide 9: Admin & EHS Center
+            {
+                title: "行政總務與環安中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">智慧永續設施的管理者</h3>
+                        <p class="text-center text-gray-500 mb-8">打造AI智慧安全文化體系</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">ESG 與永續目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>全力支撐RE100目標，五年內綠電使用率達90%以上。</li>
+                                    <li>確保營運符合環境法規，並主動超標準推進。</li>
+                                    <li>落實職安健康管理，目標零工傷零災害。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 導入策略</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>AI決策平台：</strong>融合資產管理與辦公數據，偵測異常。</li>
+                                    <li><strong>AI影像辨識：</strong>監控高風險作業，自動提醒糾正違規。</li>
+                                    <li><strong>AI能耗分析：</strong>動態優化設備運行參數，降低能耗。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>行政總務與環安中心肩負著內部運營支援和企業永續安全的重任。未來五年，我們希望這個團隊成為公司<strong>智慧永續設施的管理者</strong>，用智慧化手段管理設施與資產。</p>
+                    <p><strong>角色定位上</strong>，行政總務部（GA）將成為兼顧效率與溫度的“內部最佳後援”；環境健康安全部（EHS）則從傳統法規遵循者轉型為“數據驅動、預防導向”的智慧職安單位。</p>
+                    <p><strong>ESG目標方面</strong>，我們將全力支撐公司達成RE100，並以零工傷為目標，營造安全、健康、綠色的工作場域。</p>
+                    <p><strong>短中長期重點</strong>將從數位化資產管理系統上線，到建成安全數據分析自動化系統，最終實現設施管理全面智能化。</p>
+                    <p><strong>AI導入</strong>將扮演重要角色，包括打造AI決策平台、引入AI影像辨識技術監控高風險作業，以及利用AI進行能耗分析優化。</p>
+                `
+            },
+            // Slide 10: Quality Management Center
+            {
+                title: "品質管理中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">從被動改善到主動預防的守護者</h3>
+                        <p class="text-center text-gray-500 mb-8">建立永續品質文化</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">發展目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>短期：導入AI輔助品質分析與智慧稽核，推動文化轉變。</li>
+                                    <li>中期：實現品質管理“主動預防”為常態，落實DFQ理念。</li>
+                                    <li>長期：邁向全面品質管理（TQM），形成綜合安全文化。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 導入策略</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>智慧稽核：</strong>AI自動生成稽核報告，影像比對標準。</li>
+                                    <li><strong>智慧供應鏈品質監控：</strong>整合供應商數據，建立風險雷達。</li>
+                                    <li><strong>產品數位履歷：</strong>記錄產品全生命週期信息，提升透明度。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>未來的品質管理需要升級迭代，從“被動改善”轉型為“<strong>主動預防</strong>”。我們的目標是建立一種<strong>永續品質文化</strong>，不僅追求零缺陷，更追求產品對環境與消費者的長期安全。</p>
+                    <p>雖然我們目前的客訴率極低，但源頭預防的重視還不夠。因此，<strong>發展目標</strong>將分三步走：短期，導入AI輔助分析和智慧稽核，開始數位化轉型；中期，讓“主動預防”成為常態，並落實DFQ（設計即品質）理念；長期，邁向全面品質管理（TQM），讓品質融入公司DNA。</p>
+                    <p><strong>AI導入策略</strong>將全方位輔助品質工作，包括實施智慧稽核、建置智慧供應鏈品質監控平台、AI異常分析以及推進產品數位履歷專案。透過科技工具與預防哲學，讓“歐萊德出品，品質保證”永遠是金字招牌。</p>
+                `
+            },
+            // Slide 11: R&D Center
+            {
+                title: "研發中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">從頂尖化妝品到跨域創新驅動者</h3>
+                        <p class="text-center text-gray-500 mb-8">打造具備 "AI for Science" 能力的未來實驗室</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">發展目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>短期：建立AI化研發知識庫，加速安定性測試流程。</li>
+                                    <li>中期：成功研發並上市生髮藥品，完善藥品研發品質系統。</li>
+                                    <li>長期：掌握跨領域研發技能，在高科技研發領域擁有話語權。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 導入策略</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>研發知識庫系統：</strong>自動收集歸納歷史實驗數據，避免知識流失。</li>
+                                    <li><strong>AI輔助配方設計：</strong>機器學習預測產品安定性與功效，縮短開發週期。</li>
+                                    <li><strong>AI自動化文件生成：</strong>協助撰寫產品註冊技術文件，提高法規效率。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>未來五年，我們希望研發中心能更上一層樓，不只是台灣最強的化妝品研發團隊，而是能<strong>跨足生技醫藥領域</strong>，成為真正的創新引擎，一座“<strong>未來實驗室</strong>”。</p>
+                    <p>目前研發中心面臨人力與知識斷層、開發速度、以及跨足藥品領域的挑戰。為此，我們的<strong>發展目標</strong>是：短期，建立AI化研發知識管理系統，解決知識流失風險；中期，成功推出生髮藥品，實現里程碑式突破；長期，將研發中心打造成具備“AI for Science”能力的創新實驗室。</p>
+                    <p><strong>AI導入</strong>是必然且關鍵的。我們將推進研發流程AI化，包括開發研發知識庫系統、導入AI輔助配方設計與模擬、以及應用AI自動化文件生成。研發中心是我們進軍未來的尖兵，公司將給予最大的支持與資源，期待大家勇於突破，為市場帶來驚喜。</p>
+                `
+            },
+            // Slide 12: Operations Center
+            {
+                title: "運籌中心：策略與AI導入",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-1">從勞力密集到技術密集的智慧供應鏈</h3>
+                        <p class="text-center text-gray-500 mb-8">邁向數位孿生工廠 (Digital Twin)</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">發展目標</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li>短期：建構數位基盤（導入MES/IoT），實施供應商分級管理。</li>
+                                    <li>中期：實現流程最適化，提升OEE，取得國際永續供應鏈認證。</li>
+                                    <li>長期：完成智慧工廠雛形，導入協作機器人與數位孿生。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">AI 導入策略</h4>
+                                <ul class="list-disc list-inside text-sm space-y-2">
+                                    <li><strong>AI輔助採購決策：</strong>整合多維度數據，評估最佳採購策略。</li>
+                                    <li><strong>AI設備預測維護：</strong>提前預測設備故障，降低非計畫停機。</li>
+                                    <li><strong>AI智能排程：</strong>動態調整生產計劃，優化瓶頸機台效率。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>運籌中心（供應鏈與生產運營）是最能體現AI和數位轉型價值的地方之一。我們的目標是把運籌中心打造成<strong>智慧供應鏈</strong>的模範，最終邁向<strong>數位孿生工廠</strong>的願景。</p>
+                    <p>目前運籌面臨來料品質、KPI設定不合理、人才與數位化短板等瓶頸。為此，我們的<strong>發展目標</strong>是：短期，打好數位基盤，導入MES與IoT；中期，透過數據分析與IE改善，實現流程最適化與效率飛躍；長期，導入AI、協作機器人，完成智慧工廠雛形。</p>
+                    <p>談到<strong>AI導入</strong>，我們將以MES/IoT數據為基石，全面應用AI於供應鏈決策，包括AI輔助採購、AI設備預測維護、AI智能排程等。運籌中心的轉型將是公司未來幾年變化最大的領域，但成果也將最為令人振奮，為歐萊德的永續成長夯實基石。</p>
+                `
+            },
+            // Slide 13: Conclusion
+            {
+                title: "結語：跨領域協同與願景展望",
+                content: `
+                    <div class="p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-center mb-8">1 + 1 > 2：協同創造價值</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-bold text-lg text-emerald-700">整體協同效益</h4>
+                                <p class="mt-1 text-sm">建立共通數據平台和目標體系（OKR），打破部門藩籬。研發、品管、運籌共享數據飛輪；人資、法務、行政協力推動變革管理。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-emerald-700">策略地圖與里程碑</h4>
+                                <p class="mt-1 text-sm">以年度為單位檢視關鍵里程碑，確保按期達成。每一步都是朝向宏偉願景邁進的重要腳印。</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-emerald-700">董事長期許</h4>
+                                <p class="mt-1 text-sm">承諾投入必要資源與授權，鼓勵大膽創新、勇於突破。讓我們攜手，讓綠色夢想在AI時代綻放更耀眼的光芒，寫下歐萊德新的傳奇篇章！</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <p>各位經理人，在詳述了六大中心的策略與計畫後，我想用這最後一段來強調<strong>整體協同</strong>的重要性並表達我的期許。未來五年，如果我們要成功，絕對不是靠單一部門的獨走，而是靠<strong>跨領域的通力合作</strong>。</p>
+                    <p>我們已經有了清晰的<strong>策略地圖與里程碑</strong>。每年我們都會有幾項重點成果要交付，這些里程碑將是檢驗我們進度的標尺。我會和各位一起追蹤進展，提供協助、調配資源。</p>
+                    <p>最後，我想以董事長的身份，談談我個人的<strong>期許和承諾</strong>。我對這份願景充滿信心，並承諾公司會全力支持資源與授權。我希望大家大膽去嘗試，失敗了也沒關係，從中學習即可。我們這一路的奮鬥，不僅僅是為了公司盈利，更懷抱著一個更大的夢想：讓永續綠色的理念成為主流，讓科技為環境和人類帶來福祉。讓我們攜起手來，將這份戰纜圖化為現實。謝謝大家！</p>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+        const presentationContainer = document.getElementById('presentation-container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slide-counter');
+        const progressBar = document.getElementById('progress-bar');
+
+        function renderSlide() {
+            const slideData = slides[currentSlide];
+            let notesHtml = '';
+            if (slideData.notes && slideData.notes.trim() !== '') {
+                notesHtml = `
+                    <div class="speaker-notes">
+                        <details>
+                            <summary>講稿</summary>
+                            <div class="notes-content mt-2 text-gray-600">
+                                ${slideData.notes}
+                            </div>
+                        </details>
+                    </div>
+                `;
+            }
+            
+            const slideHtml = `
+                <div class="slide active" data-slide-index="${currentSlide}">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-xl font-bold">${slideData.title}</h2>
+                    </div>
+                    <div class="slide-body">
+                        ${slideData.content}
+                        ${notesHtml ? `<div class="px-8 md:px-12 pb-8">${notesHtml}</div>` : ''}
+                    </div>
+                </div>
+            `;
+            presentationContainer.innerHTML = slideHtml;
+            updateControls();
+        }
+
+        function updateControls() {
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            slideCounter.textContent = `第 ${currentSlide + 1} / ${slides.length} 頁`;
+            
+            const progressPercentage = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            }
+        });
+
+
+        // Initial render
+        renderSlide();
+    </script>
+</body>
+</html>
